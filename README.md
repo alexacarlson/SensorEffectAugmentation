@@ -20,22 +20,23 @@ The docker image is specified in augment-docker-image/Dockerfile.
 
 The Sensor Effect Image Augmentation Pipeline is comprised of the following files:
 
-[run_main_aug.sh]
+```run_main_aug.sh```
 
 	This is a bash file that initializes a docker container and runs the image augmentation pipeline.
 	
 	To run the pipeline:
 
-	```
-		$. run_main_aug.sh
-	```
+	```$. run_main_aug.sh```
 
-	in the command line within the Sensor_Augmentation_Pipeline folder.
+	in the command line within the SensorEffectAugmentation folder.
 
 	The first volume mapping ```-v `pwd`/ImgData``` (line 2)
-	argument is the full path to the directory that holds the images you would like to augment.
-	The second volume mapping ```-v `pwd`/AugmentedImgData``` (line 3) is the path to the directory where the augmented images will be saved.
+	argument is the full path to the directory that holds the images you would like to augment. The default location is set to ```ImgData``` in the SensorEffectAugmentation directory.
+
+	The second volume mapping ```-v `pwd`/AugmentedImgData``` (line 3) is the path to the directory where the augmented images will be saved. The default location is set to ```AugmentedImgData``` in the SensorEffectAugmentation directory.
+
 	The other volume mappings are setting up the file system in the docker container. 
+
 	The command ```python /root/main.py``` (line 11) runs the image augmentation pipeline. 
 
 	The inputs to the ```main.py``` function are:
@@ -55,10 +56,10 @@ The Sensor Effect Image Augmentation Pipeline is comprised of the following file
 	```--results_dir``` Directory name to save the augmented images
 
 ```main_aug.py```
-	This is a master function that handles input flags and initializing the augmentation. It is called by run_main_aug.sh.
+	This is a master function that handles input flags and initializing the augmentation. It is called by ```run_main_aug.sh```.
 
 ```model_aug.py```
-	This is a python module that defines the image augmentation class and builds the tensorflow graph. It is called by main_aug.py
+	This is a python module that defines the image augmentation class and builds the tensorflow graph. It is called by ```main_aug.py```.
 
 ```augmentationfunctions_tf.py```
 	This is a python module that contains all of the sensor augmentation functions for blur, chromatic aberration, exposure changes, sensor noise, and color shifts.
@@ -71,7 +72,7 @@ The Sensor Effect Image Augmentation Pipeline is comprised of the following file
 ```pix2pix_lab2RGBconv.py```
 	This is a python module that implements color conversion between RGB and LAB color spaces. It is called by augmentationfunctions_tf.py
 
-Examples of GTA images augmented with the above sensor effects are located in Sensor_Augmentation_Pipeline/augFIGURES.
+Examples of GTA images augmented with the above sensor effects are located in ```Sensor_Augmentation_Pipeline/augFIGURES``` folder.
 
 
 
