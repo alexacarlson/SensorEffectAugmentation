@@ -6,14 +6,14 @@ This repository contains the tensorflow implementation of the Sensor Effect Augm
 
 ### Setting up the Sensor Effect Pipeline
 This pipeline uses docker/containers, so it can be run on any computer. 
-For a good tutorial on docker see https://docs.docker.com/get-started/
+For a good tutorial on docker see https://docs.docker.com/get-started/.
 The docker image used by this model needs to be built before being used, which is done by running the following 
 command in the Sensor_Augmentation_Pipeline folder:
 
-docker build -t tf-sensor-augment augment-docker-image/
+```$docker build -t tf-sensor-augment augment-docker-image/```
 
-where 'tf-sensor-augment' is the tag for the docker image and is what is used to start a container.
-The docker image is specified in augment-docker-image/Dockerfile.
+where ```tf-sensor-augment``` is the tag for the docker image and is what is used to start a container.
+The docker image is specified in ```augment-docker-image/Dockerfile```.
 
 
 ### Running the Pipeline/Augmenting Images
@@ -29,46 +29,44 @@ The Sensor Effect Image Augmentation Pipeline is comprised of the following file
 
 ```run_main_aug.sh```
 
-This is a bash file that initializes a docker container and runs the image augmentation pipeline.
+   This is a bash file that initializes a docker container and runs the image augmentation pipeline.
 
-The first volume mapping ```-v `pwd`/ImgData``` (line 2)
-argument is the full path to the directory that holds the images you would like to augment. The default location is set to ```ImgData``` in the SensorEffectAugmentation directory.
+   The first volume mapping ```-v `pwd`/ImgData``` (line 2)
+   argument is the full path to the directory that holds the images you would like to augment. The default location is set to ```ImgData``` in the SensorEffectAugmentation directory.
 
-The second volume mapping ```-v `pwd`/AugmentedImgData``` (line 3) is the path to the directory where the augmented images will be saved. The default location is set to ```AugmentedImgData``` in the SensorEffectAugmentation directory.
+   The second volume mapping ```-v `pwd`/AugmentedImgData``` (line 3) is the path to the directory where the augmented images will be saved. The default location is set to ```AugmentedImgData``` in the SensorEffectAugmentation directory.
 
-The other volume mappings are setting up the file system in the docker container. 
+   The other volume mappings are setting up the file system in the docker container. 
+   The command ```python /root/main.py``` (line 11) runs the image augmentation pipeline. 
 
-The command ```python /root/main.py``` (line 11) runs the image augmentation pipeline. 
+   The inputs to the ```main.py``` function are:
 
-The inputs to the ```main.py``` function are:
+   ```--epoch``` sets the number of augmentations to perform on the dataset i.e., setting epoch to 2 means the dataset will be augmented twice
 
-```--epoch``` the number of epochs; corresponds to number of augmentations to perform on the dataset i.e., epoch =2 means the dataset will be augmented twice
+   ```--batch_size``` The size of batch images; must be a multiple of n and >1
 
-```--batch_size``` The size of batch images; must be a multiple of n and >1
+   ```--c_dim``` Dimension of image color channel (note that any channel >3 will be discarded)
 
-```--c_dim``` Dimension of image color channel (note that any channel >3 will be discarded)
+   ```--Img_dataset``` The name full path of dataset to augment
+ 
+   ```--Img_height``` The size of the output images to produce (note that all images will be resized to the specified Img_height x Img_width)
 
-```--Img_dataset``` The name full path of dataset to augment
+   ```--Img_width``` The size of the output images to produce. If None, same value as output_height 
 
-```--Img_height``` The size of the output images to produce (note that all images will be resized to the specified Img_height x Img_width)
+   ```--chromab_flag``` flag that specifies whether to perform Chromatic aberration augmentation
 
-```--Img_width``` The size of the output images to produce. If None, same value as output_height 
+   ```--blur_flag``` flag that specifies whether to perform Blur augmentation
 
-```--chromab_flag``` flag that specifies whether to perform Chromatic aberration augmentation
+   ```--exposure_flag``` flag that specifies whether to perform Exposure augmentation
 
-```--blur_flag``` flag that specifies whether to perform Blur augmentation
+   ```--noise_flag``` flag that specifies whether to perform noise augmentation
+   ```--color_flag``` flag that specifies whether to perform color shift augmentation
 
-```--exposure_flag``` flag that specifies whether to perform Exposure augmentation
+   ```--save_aug_params_flag``` flag that specifies whether to save aug. parameters for each image
 
-```--noise_flag``` flag that specifies whether to perform noise augmentation
+   ```--input_fname_pattern``` Glob pattern of filename of input images 
 
-```--color_flag``` flag that specifies whether to perform color shift augmentation
-
-```--save_aug_params_flag``` flag that specifies whether to save aug. parameters for each image
-
-```--input_fname_pattern``` Glob pattern of filename of input images 
-
-```--results_dir``` Directory name to save the augmented images
+   ```--results_dir``` Directory name to save the augmented images
 
 ```main_aug.py```
 	This is a master function that handles input flags and initializing the augmentation. It is called by ```run_main_aug.sh```.
