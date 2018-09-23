@@ -1,6 +1,5 @@
 ##
 ## SENSOR EFFECT AUGMENTATION PIPELINE 
-##
 
 This repository contains the tensorflow implementation of the Sensor Effect Augmentation Pipeline described in *Modeling Camera Effects to Improve Visual Learning from Synthetic Data* (https://arxiv.org/abs/1803.07721).
 
@@ -27,7 +26,7 @@ You can customize the type of augmentations, the dataset to augmented, etc by mo
 
 The Sensor Effect Image Augmentation Pipeline is comprised of the following files:
 
-```run_main_aug.sh```
+*```run_main_aug.sh```
 
    This is a bash file that initializes a docker container and runs the image augmentation pipeline.
 
@@ -68,21 +67,26 @@ The Sensor Effect Image Augmentation Pipeline is comprised of the following file
 
    ```--results_dir``` Directory name to save the augmented images
 
-```main_aug.py```
+*```main_aug.py```
+
 	This is a master function that handles input flags and initializing the augmentation. It is called by ```run_main_aug.sh```.
 
-```model_aug.py```
-	This is a python module that defines the image augmentation class and builds the tensorflow graph. It is called by ```main_aug.py```.
+*```model_aug.py```
 
-```augmentationfunctions_tf.py```
+	This is a python module that defines the image augmentation class and builds the tensorflow graph. It is called by ```main_aug.py```. To alter the sensor effect parameter ranges, you will need to change the values in the ```generate_augmentation``` function, lines 123-200 in this file.
+
+*```augmentationfunctions_tf.py```
+
 	This is a python module that contains all of the sensor augmentation functions for blur, chromatic aberration, exposure changes, sensor noise, and color shifts.
 	Please see our arxiv paper (https://arxiv.org/abs/1803.07721) for more information on these functions.
 
-```geometric_transformation_module.py```
+*```geometric_transformation_module.py```
+
 	This is a python module that implements affine warping; is used for augmenting images with chromatic aberration via warping the R and B color channels relative to the G channel.
 	It is called by augmentationfunctions_tf.py
 
-```pix2pix_lab2RGBconv.py```
+*```pix2pix_lab2RGBconv.py```
+
 	This is a python module that implements color conversion between RGB and LAB color spaces. It is called by augmentationfunctions_tf.py
 
 Examples of GTA images augmented with the above sensor effects are located in ```Sensor_Augmentation_Pipeline/augFIGURES``` folder.
