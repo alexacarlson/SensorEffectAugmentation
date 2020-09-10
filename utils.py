@@ -12,8 +12,6 @@ import scipy.misc
 import numpy as np
 from time import gmtime, strftime
 
-pp = pprint.PrettyPrinter()
-
 get_stddev = lambda x, k_h, k_w: 1/math.sqrt(k_w*k_h*x.get_shape()[-1])
 
 def get_image(image_path, input_height, input_width,
@@ -183,7 +181,7 @@ def visualize(sess, dcgan, config, option):
     save_images(samples, [8, 8], './samples/test_%s.png' % strftime("%Y-%m-%d %H:%M:%S", gmtime()))
   elif option == 1:
     air_data = glob(os.path.join(
-      "./data", config.air_dataset, config.input_fname_pattern))
+      "./data", config.air_dataset, config.pattern))
     depth_data = glob(os.path.join(
       "./data", config.depth_dataset, "*.tiff"))
 
@@ -214,7 +212,7 @@ def visualize(sess, dcgan, config, option):
     depth_batch_images_i = np.array(depth_batch).astype(np.float32)
     depth_batch_images_i = np.expand_dims(depth_batch_images_i,axis=3)
     #depth_batch_images = np.multiply(de
-    depth_batch_images = np.broadcast_to(depth_batch_images_i,(config.batch_size,config.output_height,config.output_width,config.c_dim))
+    depth_batch_images = np.broadcast_to(depth_batch_images_i,(config.batch_size,config.output_height,config.output_width,config.channels))
 
 
     values = np.arange(0, 1, 1./config.batch_size)
