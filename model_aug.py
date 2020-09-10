@@ -103,7 +103,7 @@ class camGAN(object):
         out = self.sess.run([self.aug_image_genOP], feed_dict={self.G_inputs: G_batch_images})
         #
         ## generator output images and sampled augmentation parameters
-        G_output_images = np.squeeze(out[0][0])
+        G_output_images = np.squeeze(out[0])
         ChromAbParams = np.array(out[0][1])
         BlurParams =   np.array(out[0][2])
         ExpParams =   np.array(out[0][3])
@@ -257,7 +257,6 @@ class camGAN(object):
     return batch_images, batch_files
 
   def save_augmented_final_images(self, output_images, batch_files, ChromAbParams, BlurParams, ExpParams, NoiseParams, ColorParams, n):
-    print(self.save_params,self.chromatic_aberration,self.blur,self.exposure,self.noise,self.colour_shift)
     ##
     save_params = self.save_params
     ##
