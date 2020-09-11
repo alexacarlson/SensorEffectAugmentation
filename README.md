@@ -30,43 +30,58 @@ The Sensor Effect Image Augmentation Pipeline is comprised of the following file
 
    This is a bash file that initializes a docker container and runs the image augmentation pipeline.
 
-   The first volume mapping ```-v `pwd`/ImgData``` (line 2)
-   argument is the full path to the directory that holds the images you would like to augment. The default location is set to ```ImgData``` in the SensorEffectAugmentation directory.
-
-   The second volume mapping ```-v `pwd`/AugmentedImgData``` (line 3) is the path to the directory where the augmented images will be saved. The default location is set to ```AugmentedImgData``` in the SensorEffectAugmentation directory.
+   The variable ```input``` is the path to the directory that holds the images you would like to augment
+   
+   The variable ```output``` is the path to the directory where the augmented images will be saved. The default location is set to ```results``` in the SensorEffectAugmentation directory.
+   
+   The variable ```code_location``` is the path to the directory where SensorEffectAugmentation is located
 
    The other volume mappings are setting up the file system in the docker container. 
-   The command ```python /root/main.py``` (line 11) runs the image augmentation pipeline. 
+   
+   The command ```python /root/main.py``` (line 15) runs the image augmentation pipeline. 
+	```bash
+	usage: main.py [-h] [-n [N]] [-b [BATCH_SIZE]] [-c [CHANNELS]] [-i INPUT]
+		       [-o [OUTPUT]] [--pattern [PATTERN]]
+		       [--image_height [IMAGE_HEIGHT]] [--image_width [IMAGE_WIDTH]]
+		       [--chromatic_aberration [CHROMATIC_ABERRATION]] [--blur [BLUR]]
+		       [--exposure [EXPOSURE]] [--noise [NOISE]]
+		       [--colour_shift [COLOUR_SHIFT]] [--save_params [SAVE_PARAMS]]
 
-   The inputs to the ```main.py``` function are:
+	Augment a dataset
 
-   ```--epoch``` sets the number of augmentations to perform on the dataset i.e., setting epoch to 2 means the dataset will be augmented twice
-
-   ```--batch_size``` The size of batch images; must be a multiple of n and >1
-
-   ```--c_dim``` Dimension of image color channel (note that any channel >3 will be discarded)
-
-   ```--Img_dataset``` The name full path of dataset to augment
- 
-   ```--Img_height``` The size of the output images to produce (note that all images will be resized to the specified Img_height x Img_width)
-
-   ```--Img_width``` The size of the output images to produce. If None, same value as output_height 
-
-   ```--chromab_flag``` flag that specifies whether to perform Chromatic aberration augmentation
-
-   ```--blur_flag``` flag that specifies whether to perform Blur augmentation
-
-   ```--exposure_flag``` flag that specifies whether to perform Exposure augmentation
-
-   ```--noise_flag``` flag that specifies whether to perform noise augmentation
-   ```--color_flag``` flag that specifies whether to perform color shift augmentation
-
-   ```--save_aug_params_flag``` flag that specifies whether to save aug. parameters for each image
-
-   ```--input_fname_pattern``` Glob pattern of filename of input images 
-
-   ```--results_dir``` Directory name to save the augmented images
-
+	optional arguments:
+	  -h, --help            show this help message and exit
+	  -n [N]                sets the number of augmentations to perform on the
+				dataset i.e., setting n to 2 means the dataset will be
+				augmented twice
+	  -b [BATCH_SIZE], --batch_size [BATCH_SIZE]
+				size of batches; must be a multiple of n and >1
+	  -c [CHANNELS], --channels [CHANNELS]
+				dimension of image color channel (note that any
+				channel >3 will be discarded
+	  -i INPUT, --input INPUT
+				path to the dataset to augment
+	  -o [OUTPUT], --output [OUTPUT]
+				path where the augmented dataset will be saved
+	  --pattern [PATTERN]   glob pattern of filename of input images
+	  --image_height [IMAGE_HEIGHT]
+				size of the output images to produce (note that all
+				images will be resized to the specified image_height x
+				image_width)
+	  --image_width [IMAGE_WIDTH]
+				size of the output images to produce. If None, same
+				value as output_height
+	  --chromatic_aberration [CHROMATIC_ABERRATION]
+				perform chromatic aberration augmentation
+	  --blur [BLUR]         perform blur augmentation
+	  --exposure [EXPOSURE]
+				perform exposure augmentation
+	  --noise [NOISE]       perform noise augmentation
+	  --colour_shift [COLOUR_SHIFT]
+				perform colour shift augmentation
+	  --save_params [SAVE_PARAMS]
+				save augmentation parameters for each image
+	```
 * ```main_aug.py```
 
 	This is a master function that handles input flags and initializing the augmentation. It is called by ```run_main_aug.sh```.
