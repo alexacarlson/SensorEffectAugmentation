@@ -215,41 +215,43 @@ def return_bayer(bayer_type, im_h, im_w, batchsize):
     #
     # generate the CFA arrays for R,G,B based upon the r pixel location:
     # 
+    h = int(im_h / 2)
+    w = int(im_w / 2)
     if bayer_type=='BGGR':
         # bggr
         Cr=np.array([[1,0],[0,0]])
         Cg=np.array([[0,1],[1,0]])
         Cb=np.array([[0,0],[0,1]])
-        Rcfa= np.tile( Cr, (im_h/2,im_w/2))
-        Gcfa= np.tile( Cg, (im_h/2,im_w/2))
-        Bcfa= np.tile( Cb, (im_h/2,im_w/2))
+        Rcfa= np.tile( Cr, (h, w))
+        Gcfa= np.tile( Cg, (h, w))
+        Bcfa= np.tile( Cb, (h, w))
         #
     if bayer_type=='GBRG':
         ## gbrg
         Cr2=np.array([[0,1],[0,0]])
         Cg2=np.array([[1,0],[0,1]])
         Cb2=np.array([[0,0],[1,0]])
-        Rcfa= np.tile( Cr2, (im_h/2,im_w/2))
-        Gcfa= np.tile( Cg2, (im_h/2,im_w/2))
-        Bcfa= np.tile( Cb2, (im_h/2,im_w/2))
+        Rcfa= np.tile( Cr2, (h, w))
+        Gcfa= np.tile( Cg2, (h, w))
+        Bcfa= np.tile( Cb2, (h, w))
         #
     if bayer_type=='GRBG':
         ## grbg
         Cr3=np.array([[0,0],[1,0]])
         Cg3=np.array([[1,0],[0,1]])
         Cb3=np.array([[0,1],[0,0]])
-        Rcfa= np.tile( Cr3, (im_h/2,im_w/2))
-        Gcfa= np.tile( Cg3, (im_h/2,im_w/2))
-        Bcfa= np.tile( Cb3, (im_h/2,im_w/2))
+        Rcfa= np.tile( Cr3, (h, w))
+        Gcfa= np.tile( Cg3, (h, w))
+        Bcfa= np.tile( Cb3, (h, w))
         #
     if bayer_type=='RGGB':
         ## rggb
         Cr4=np.array([[0,0],[0,1]])
         Cg4=np.array([[0,1],[1,0]])
         Cb4=np.array([[1,0],[0,0]])
-        Rcfa= np.tile( Cr4, (im_h/2,im_w/2))
-        Gcfa= np.tile( Cg4, (im_h/2,im_w/2))
-        Bcfa= np.tile( Cb4, (im_h/2,im_w/2))
+        Rcfa= np.tile( Cr4, (h, w))
+        Gcfa= np.tile( Cg4, (h, w))
+        Bcfa= np.tile( Cb4, (h, w))
         #
     Rcfa= np.tile( Rcfa, (batchsize,1,1))
     Gcfa= np.tile( Gcfa, (batchsize,1,1))
